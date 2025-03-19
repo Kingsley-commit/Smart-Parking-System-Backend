@@ -9,8 +9,8 @@ WORKDIR /src
 # Copy the project files
 COPY ["SmartParkingSystem/SmartParkingSystem.csproj", "SmartParkingSystem/"]
 
-# Restore dependencies
-RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj"
+# Restore dependencies with explicit package directory
+RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj" --packages /root/.nuget/packages --ignore-failed-sources
 
 # Copy and build the project
 COPY . .
