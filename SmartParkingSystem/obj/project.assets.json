@@ -5139,40 +5139,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mutiu.oseni\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\WPF\\23.1.36\\ToolboxNuGetPackages": {},
-    "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\NITHUB HIVE\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\repos\\817Project\\SmartParkingSystem\\SmartParkingSystem\\SmartParkingSystem.csproj",
+      "projectUniqueName": "C:\\Users\\NITHUB HIVE\\Desktop\\Smart-Park-Folder\\mainproject\\Smart-Parking-System\\SmartParkingSystem\\SmartParkingSystem.csproj",
       "projectName": "SmartParkingSystem",
-      "projectPath": "E:\\repos\\817Project\\SmartParkingSystem\\SmartParkingSystem\\SmartParkingSystem.csproj",
-      "packagesPath": "C:\\Users\\mutiu.oseni\\.nuget\\packages\\",
-      "outputPath": "E:\\repos\\817Project\\SmartParkingSystem\\SmartParkingSystem\\obj\\",
+      "projectPath": "C:\\Users\\NITHUB HIVE\\Desktop\\Smart-Park-Folder\\mainproject\\Smart-Parking-System\\SmartParkingSystem\\SmartParkingSystem.csproj",
+      "packagesPath": "C:\\Users\\NITHUB HIVE\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\NITHUB HIVE\\Desktop\\Smart-Park-Folder\\mainproject\\Smart-Parking-System\\SmartParkingSystem\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Syncfusion\\Essential Studio\\WPF\\23.1.36\\ToolboxNuGetPackages",
-        "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\mutiu.oseni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\NITHUB HIVE\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Syncfusion Toolbox for WPF.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WPF.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5191,7 +5182,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -5265,8 +5256,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }
