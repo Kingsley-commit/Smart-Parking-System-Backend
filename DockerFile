@@ -6,8 +6,8 @@ WORKDIR /app
 COPY . ./
 
 # Restore dependencies and build the app
-RUN dotnet restore "SmartParkingSystem.csproj"
-RUN dotnet publish "SmartParkingSystem.csproj" -c Release -o /out
+RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj"
+RUN dotnet publish "SmartParkingSystem/SmartParkingSystem.csproj" -c Release -o /out
 
 # Use the official .NET runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
