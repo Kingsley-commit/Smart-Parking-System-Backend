@@ -1,4 +1,4 @@
-# Use the official .NET SDK image for building the project
+# Use the official .NET SDK 7.0 image for building the project
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
@@ -7,7 +7,7 @@ COPY SmartParkingSystem/SmartParkingSystem.csproj SmartParkingSystem/
 WORKDIR /src/SmartParkingSystem
 
 # Restore dependencies
-RUN dotnet run
+RUN dotnet restore  # ✅ Fix: Use restore instead of "run"
 
 # Copy the remaining source code and build the project
 COPY . .
