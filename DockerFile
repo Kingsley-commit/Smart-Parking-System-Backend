@@ -1,23 +1,27 @@
-# Use the official .NET SDK image to build the project
+# Use the official .NET SDK image for building the project
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copy everything to the container
-COPY . ./
+# Copy the project file first to optimize caching
+COPY SmartParkingSystem/SmartParkingSystem.csproj SmartParkingSystem/
+WORKDIR /src/SmartParkingSystem
 
-# Restore dependencies and build the app
-RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj"
-RUN dotnet publish "SmartParkingSystem/SmartParkingSystem.csproj" -c Release -o /out
+# Restore dependencies
+RUN dotnet restore
 
-# Use the official .NET runtime image
+# Copy the remaining source code and build the project
+COPY . .
+RUN dotnet publish -c Release -o /app --no-restore
+
+# Use a lightweight .NET runtime image for deployment
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
 
-# Copy the build output from the previous stage
-COPY --from=build /out .
+# Copy the published output from the build stage
+COPY --from=build /app .
 
-# Expose the port your app runs on (default for ASP.NET is 5000)
+# Expose the port your app runs on (change if needed)
 EXPOSE 7040
 
-# Run the application
+# Start the application
 CMD ["dotnet", "SmartParkingSystem.dll"]
