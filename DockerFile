@@ -7,7 +7,7 @@ COPY SmartParkingSystem/SmartParkingSystem.csproj SmartParkingSystem/
 WORKDIR /src/SmartParkingSystem
 
 # Restore dependencies
-RUN dotnet restore
+RUN dotnet run
 
 # Copy the remaining source code and build the project
 COPY . .
