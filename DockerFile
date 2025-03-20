@@ -1,28 +1,32 @@
-# Use a .NET 8.0 base image instead of 7.0
+# Use .NET 8.0 runtime image as the base image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# Use .NET 8.0 SDK for building the application
+# Use .NET 8.0 SDK image for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy the project files
-COPY ["SmartParkingSystem/SmartParkingSystem.csproj", "SmartParkingSystem/"]
+# Copy and restore dependencies
+COPY SmartParkingSystem/SmartParkingSystem.csproj SmartParkingSystem/
+RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj"
 
-# Restore dependencies with explicit package directory
-RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj" --packages /root/.nuget/packages --ignore-failed-sources
-
-# Copy and build the project
-COPY . .
+# Copy the full project source
+COPY SmartParkingSystem SmartParkingSystem/
 WORKDIR "/src/SmartParkingSystem"
-RUN dotnet build --no-restore -c Release -o /app/build
 
-# Publish the application
-FROM build AS publish
-RUN dotnet publish --no-build -c Release -o /app/publish
+# Build the project
+RUN dotnet publish -c Release -o /app/publish
 
 # Final runtime image
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
+
+# Use a non-root user for security
+RUN adduser --disabled-password --home /app appuser && chown -R appuser /app
+USER appuser
+
+# Start the application
 ENTRYPOINT ["dotnet", "SmartParkingSystem.dll"]
