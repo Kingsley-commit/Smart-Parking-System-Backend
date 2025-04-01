@@ -7,27 +7,32 @@ EXPOSE 10000
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy and restore dependencies
+# Copy the project file and restore any dependencies (via dotnet restore)
 COPY ["SmartParkingSystem/SmartParkingSystem.csproj", "SmartParkingSystem/"]
 RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj"
 
-# Copy the full project source
+# Copy the full project source into the container
 COPY SmartParkingSystem/ SmartParkingSystem/
 WORKDIR "/src/SmartParkingSystem"
 
-# Build and publish the project
+# Ensure all dependencies are restored and build the project
+RUN dotnet restore && dotnet build -c Release
+
+# Publish the application to the /app/publish directory
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
 # Final runtime image
 FROM base AS final
 WORKDIR /app
+
+# Copy the published output from the build image
 COPY --from=build /app/publish .
 
 # Use a non-root user for security
 RUN adduser --disabled-password --home /app appuser && chown -R appuser /app
 USER appuser
 
-# Set environment variable for port
+# Set environment variable for the ASP.NET Core server to listen on port 10000
 ENV ASPNETCORE_URLS=http://+:10000
 
 # Start the application
