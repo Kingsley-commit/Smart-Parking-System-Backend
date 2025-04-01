@@ -13,14 +13,15 @@ using static SmartParkingSystem.Seeder.RoleSeeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Retrieve the port from environment variables, defaulting to 7040
 var port = Environment.GetEnvironmentVariable("PORT") 
            ?? Environment.GetEnvironmentVariable("ASPNETCORE_PORT") 
-           ?? "7040"; // Default to 10000 for Render
+           ?? "7040"; // Default to 7040 for Docker setup
 
-builder.WebHost.UseUrls($"http://+:{port}");
+// Ensure the app binds to 0.0.0.0 to be accessible from outside the container
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-
-// Add services to the container.
+// Add services to the container
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureSqlContext(builder.Configuration);
@@ -103,6 +104,8 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// Seed roles into the database if necessary
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -118,18 +121,25 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+// Configure the app's HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    // Skip HTTPS redirection in production or Docker environments
+    // You can choose to remove or comment out this line in production
+    // app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
-app.UseCors("CorsPolicy");
+app.UseCors("AllowReactApp");  // Allow cross-origin requests from your React app
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Run the app
 app.Run();
