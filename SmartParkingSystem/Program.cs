@@ -62,19 +62,19 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-        .AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                ValidAudience = builder.Configuration["Jwt:Issuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-            };
-        });
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
 builder.Services.AddScoped<JwtHandler>();
 
@@ -93,12 +93,15 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// ✅ UPDATED CORS POLICY
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
-        builder => builder.WithOrigins("http://localhost:3000")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod());
+        policy => policy.WithOrigins("http://localhost:3000", "https://e-parking-space.vercel.app") // ✅ Allow Vercel
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
 });
 
 var app = builder.Build();
@@ -127,6 +130,7 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;  // Swagger UI at the root of the app
 });
 
+// ✅ APPLY CORS BEFORE AUTHENTICATION
 app.UseCors("AllowReactApp");  // Allow cross-origin requests from your React app
 
 app.UseAuthentication();
