@@ -13,6 +13,10 @@ using static SmartParkingSystem.Seeder.RoleSeeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure dynamic port for SmartASP.NET hosting
+var port = Environment.GetEnvironmentVariable("ASPNETCORE_PORT") ?? "7040";
+builder.WebHost.UseUrls($"http://+:{port}");
+
 // Add services to the container.
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
@@ -37,8 +41,6 @@ builder.Services.AddIdentity<User, IdentityRole>(opt =>
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
     opt.TokenLifespan = TimeSpan.FromHours(2));
-//builder.Services.AddDbContext<RepositoryContext>(options =>
-//           options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
 
 builder.Services.AddDbContext<RepositoryContext>(options =>
     options.UseSqlServer(
@@ -112,7 +114,6 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"An error occurred while seeding the database: {ex.Message}");
     }
 }
-
 
 if (app.Environment.IsDevelopment())
 {
