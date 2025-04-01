@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var port = Environment.GetEnvironmentVariable("PORT") 
            ?? Environment.GetEnvironmentVariable("ASPNETCORE_PORT") 
-           ?? "10000"; // Default to 10000 for Render
+           ?? "7040"; // Default to 10000 for Render
 
 builder.WebHost.UseUrls($"http://+:{port}");
 
