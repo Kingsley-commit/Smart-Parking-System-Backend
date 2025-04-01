@@ -14,11 +14,10 @@ using static SmartParkingSystem.Seeder.RoleSeeder;
 var builder = WebApplication.CreateBuilder(args);
 
 // Retrieve the port from environment variables (Render automatically sets `PORT`)
-var port = Environment.GetEnvironmentVariable("PORT") ?? "10000"; // Default to 7040 if not provided by Render
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000"; // Default to 10000 if not provided by Render
 
 // Ensure the app binds to 0.0.0.0 to be accessible from outside the container
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
 
 // Add services to the container
 builder.Services.ConfigureCors();
@@ -121,17 +120,12 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the app's HTTP request pipeline
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-else
-{
-    // Skip HTTPS redirection in production or Docker environments
-    // You can choose to remove or comment out this line in production
-    // app.UseHttpsRedirection();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Parking System API V1");
+    c.RoutePrefix = string.Empty;  // Swagger UI at the root of the app
+});
 
 app.UseCors("AllowReactApp");  // Allow cross-origin requests from your React app
 
