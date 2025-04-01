@@ -8,15 +8,15 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy and restore dependencies
-COPY SmartParkingSystem/SmartParkingSystem.csproj SmartParkingSystem/
+COPY ["SmartParkingSystem/SmartParkingSystem.csproj", "SmartParkingSystem/"]
 RUN dotnet restore "SmartParkingSystem/SmartParkingSystem.csproj"
 
 # Copy the full project source
-COPY SmartParkingSystem SmartParkingSystem/
+COPY SmartParkingSystem/ SmartParkingSystem/
 WORKDIR "/src/SmartParkingSystem"
 
-# Build the project
-RUN dotnet publish -c Release -o /app/publish
+# Build and publish the project
+RUN dotnet publish -c Release -o /app/publish --no-restore
 
 # Final runtime image
 FROM base AS final
@@ -28,7 +28,7 @@ RUN adduser --disabled-password --home /app appuser && chown -R appuser /app
 USER appuser
 
 # Set environment variable for port
-ENV PORT=7040
+ENV ASPNETCORE_URLS=http://+:7040
 
 # Start the application
 ENTRYPOINT ["dotnet", "SmartParkingSystem.dll"]
