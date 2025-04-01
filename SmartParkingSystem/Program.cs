@@ -14,7 +14,7 @@ using static SmartParkingSystem.Seeder.RoleSeeder;
 var builder = WebApplication.CreateBuilder(args);
 
 // Retrieve the port from environment variables (Render automatically sets `PORT`)
-var port = Environment.GetEnvironmentVariable("PORT") ?? "7040"; // Default to 7040 if not provided by Render
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000"; // Default to 7040 if not provided by Render
 
 // Ensure the app binds to 0.0.0.0 to be accessible from outside the container
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
