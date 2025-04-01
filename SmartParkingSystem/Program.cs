@@ -13,9 +13,13 @@ using static SmartParkingSystem.Seeder.RoleSeeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure dynamic port for SmartASP.NET hosting
-var port = Environment.GetEnvironmentVariable("ASPNETCORE_PORT") ?? "7040";
+// Configure dynamic port for both SmartASP.NET and Render hosting
+var port = Environment.GetEnvironmentVariable("ASPNETCORE_PORT") 
+           ?? Environment.GetEnvironmentVariable("PORT") 
+           ?? "7040"; // Default to 7040 if no environment variable is set
+
 builder.WebHost.UseUrls($"http://+:{port}");
+
 
 // Add services to the container.
 builder.Services.ConfigureCors();
