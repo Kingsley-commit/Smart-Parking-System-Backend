@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "7040"; // Default to 7040 if not provided by Render
 
 // Ensure the app binds to 0.0.0.0 to be accessible from outside the container
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+builder.WebHost.UseUrls($"http://localhost:{port}");
 
 
 // Add services to the container
