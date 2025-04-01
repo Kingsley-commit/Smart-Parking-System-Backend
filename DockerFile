@@ -1,8 +1,7 @@
 # Use .NET 8.0 runtime image as the base image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 7040  
 
 # Use .NET 8.0 SDK image for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -27,6 +26,9 @@ COPY --from=build /app/publish .
 # Use a non-root user for security
 RUN adduser --disabled-password --home /app appuser && chown -R appuser /app
 USER appuser
+
+# Set environment variable for port
+ENV PORT=7040
 
 # Start the application
 ENTRYPOINT ["dotnet", "SmartParkingSystem.dll"]
