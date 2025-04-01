@@ -13,10 +13,8 @@ using static SmartParkingSystem.Seeder.RoleSeeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Retrieve the port from environment variables, defaulting to 7040
-var port = Environment.GetEnvironmentVariable("PORT") 
-           ?? Environment.GetEnvironmentVariable("ASPNETCORE_PORT") 
-           ?? "7040"; // Default to 7040 for Docker setup
+// Retrieve the port from environment variables (Render automatically sets `PORT`)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "7040"; // Default to 7040 if not provided by Render
 
 // Ensure the app binds to 0.0.0.0 to be accessible from outside the container
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
